@@ -1,0 +1,15 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{0BD66820-BE8F-4450-9E8C-4A007EA21AB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assigenment 1", "Assigenment 1", "{CF140344-DDE0-458D-BCA1-3AEA20BBB053}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF140344-DDE0-458D-BCA1-3AEA20BBB053} = {0BD66820-BE8F-4450-9E8C-4A007EA21AB3}
+	EndGlobalSection
+EndGlobal
