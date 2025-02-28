@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8E8FDA8E-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{20E8DAAB-8328-4258-BFE8-469FF631D6A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViaEventAssociation.Core.Tools.OperationResult", "ViaEventAssociation.Core.Tools.OperationResult\ViaEventAssociation.Core.Tools.OperationResult.csproj", "{4F742342-D45A-437C-A536-F6896206D57F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViaEventAssociation.Core.Tools.OperationResult", "src\Core\Tools\ViaEventAssociation.Core.Tools.OperationResult\ViaEventAssociation.Core.Tools.OperationResult.csproj", "{4F742342-D45A-437C-A536-F6896206D57F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D7BED952-C5A5-4880-80E6-40BF2D9536BD}"
 EndProject
