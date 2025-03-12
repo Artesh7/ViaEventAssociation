@@ -9,9 +9,12 @@
     <ItemGroup>
       <Folder Include="Aggregates\Events\Contracts\" />
       <Folder Include="Aggregates\Guests\Contracts\" />
-      <Folder Include="Aggregates\Locations\Contracts\" />
       <Folder Include="Common\Values\" />
       <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Tools\ViaEventAssociation.Core.Tools.OperationResult\ViaEventAssociation.Core.Tools.OperationResult.csproj" />
     </ItemGroup>
 
 </Project>
