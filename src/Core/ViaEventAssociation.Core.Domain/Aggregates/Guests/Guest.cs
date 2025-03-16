@@ -4,13 +4,15 @@
     public class Guest
     {
         public GuestId Id { get; }
-        public GuestName Name { get; }
+        public  FirstName FirstName { get; }
+        public LastName LastName{ get; }
         public Email Email { get; }
 
-        public Guest(GuestId id ,GuestName name, Email email)
+        public Guest(GuestId id ,FirstName firstName,LastName lastName, Email email)
         {
             Id = id;
-            Name = name;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
         }
 

@@ -2,11 +2,11 @@
 namespace ViaEventAssociation.Core.Domain.Aggregates.Guests;
 
 
-    public class GuestName
+    public class FirstName
     {
         public string Name { get; }
 
-        private GuestName(string name)
+        private FirstName(string name)
         {
             this.Name = name;
         }
