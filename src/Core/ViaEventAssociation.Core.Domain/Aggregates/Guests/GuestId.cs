@@ -6,9 +6,12 @@ public class GuestId
 {
     public Guid Id { get; }
 
-    public GuestId(Guid id)
+    private GuestId(Guid Id)
     {
-        this.Id = id;
+        if (Id == Guid.Empty) throw new ArgumentException("GuestId cannot be empty");
+        Id = Id;
     }
+
+
 }
 

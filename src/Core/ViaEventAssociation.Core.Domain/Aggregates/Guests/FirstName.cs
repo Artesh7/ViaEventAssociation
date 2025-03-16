@@ -6,9 +6,12 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests;
     {
         public string Name { get; }
 
-        private FirstName(string name)
+        private FirstName(string value)
         {
-            this.Name = name;
+            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("First name cannot be empty");
+            if (value.Length < 2 || value.Length > 25) throw new ArgumentException("First name must be between 2 and 25 characters");
+
+            Name = char.ToUpper(value[0]) + value.Substring(1).ToLower();
         }
         
     }
