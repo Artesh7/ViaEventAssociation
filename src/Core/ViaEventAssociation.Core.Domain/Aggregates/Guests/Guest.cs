@@ -4,15 +4,18 @@
     public class Guest
     {
         public GuestId Id { get; }
-        public  FirstName FirstName { get; }
-        public LastName LastName{ get; }
+        public  GuestFirstName GuestFirstName { get; }
+        public GuestLastName GuestLastName{ get; }
         public Email Email { get; }
+        public ProfilePictureURL ProfilePictureURL { get; }
 
-        public Guest(FirstName firstName,LastName lastName, Email email)
+        public Guest(GuestFirstName guestFirstName,GuestLastName guestLastName, Email email, ProfilePictureURL profilePictureURL)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            GuestFirstName = guestFirstName;
+            GuestLastName = guestLastName;
             Email = email;
+            ProfilePictureURL = profilePictureURL;
+
         }
 
     }

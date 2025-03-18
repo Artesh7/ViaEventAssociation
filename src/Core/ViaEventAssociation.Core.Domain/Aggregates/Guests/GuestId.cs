@@ -4,6 +4,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests;
 
 public class GuestId
 {
+    
     public Guid Id { get; }
 
     private GuestId(Guid Id)
