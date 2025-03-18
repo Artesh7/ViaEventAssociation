@@ -11,6 +11,7 @@ namespace ViaEventAssociation.Core.Tools.OperationResult
         int resultCode; // Success is 0, anything else is error.
         string errorMessage;
         T payLoad;
+        List<string> errors;
 
         // Constructor if an error occoured.
         public Result(int resultCode, string errorMessage){
@@ -22,6 +23,13 @@ namespace ViaEventAssociation.Core.Tools.OperationResult
         public Result(T payload){
             this.resultCode = 0;
             this.payLoad = payLoad;
+        }
+
+        // Constructor if more than one error occoured.
+        public Result(List<string> errors)
+        {
+            this.resultCode = 1;
+            this.errors = errors;
         }
 
         // More than one error occoured. The following error messages are appendid to the 1st one.
