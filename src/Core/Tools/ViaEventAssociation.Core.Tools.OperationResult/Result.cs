@@ -8,10 +8,10 @@ namespace ViaEventAssociation.Core.Tools.OperationResult
 {
     public class Result<T>
     {
-        int resultCode; // Success is 0, anything else is error.
-        string errorMessage;
-        T payLoad;
-        List<string> errors;
+        public int resultCode { get; init; } // Success is 0, anything else is error.
+        public string errorMessage { get; private set; }
+        public T payLoad { get; init; }
+        public List<string> errors { get; init; }
 
         // Constructor if an error occoured.
         public Result(int resultCode, string errorMessage){
@@ -22,7 +22,7 @@ namespace ViaEventAssociation.Core.Tools.OperationResult
         // Constructor if the call finished successfully.
         public Result(T payload){
             this.resultCode = 0;
-            this.payLoad = payLoad;
+            this.payLoad = payload;
         }
 
         // Constructor if more than one error occoured.

@@ -32,15 +32,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Event\Activate\" />
-      <Folder Include="Features\Event\CreateEvent\" />
-      <Folder Include="Features\Event\MakePrivate\" />
-      <Folder Include="Features\Event\MakePublic\" />
-      <Folder Include="Features\Event\Ready\" />
-      <Folder Include="Features\Event\SetMaxGuests\" />
-      <Folder Include="Features\Event\UpdateDescription\" />
-      <Folder Include="Features\Event\UpdateTimeRange\" />
-      <Folder Include="Features\Event\UpdateTitle\" />
       <Folder Include="Features\GuestTests\AcceptInvitation\" />
       <Folder Include="Features\GuestTests\CancelParticipation\" />
       <Folder Include="Features\GuestTests\DeclineInvitation\" />
