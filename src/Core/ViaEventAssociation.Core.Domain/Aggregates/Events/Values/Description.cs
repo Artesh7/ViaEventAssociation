@@ -23,7 +23,6 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events.Values
         private static List<string> Validate(string value)
         {
             List<string> errors = new();
-            if (string.IsNullOrEmpty(value)) errors.Add("Description cannot be empty");
             if (value.Length > 251) errors.Add("Description must be at most 250 characters");
 
             return errors;

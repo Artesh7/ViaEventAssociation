@@ -17,18 +17,15 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events.Values
         }
         public static Result<Title> Create(string value)
         {
-            List<string> errors = Validate(value);
+            Result<Title> errors = Validate(value);
 
-            return errors.Any() ? new Result<Title>(errors) : new Result<Title>(new Title(value));
+            return errors != null ? errors : new Result<Title>(new Title(value));
         }
-        private static List<string> Validate(string value)
+        private static Result<Title> Validate(string value)
         {
-            List<string> errors = new();
-            if (string.IsNullOrEmpty(value)) errors.Add("Title cannot be empty");
-            if (value.Length < 3) errors.Add("Title must be at least 3 characters");
-            if (value.Length > 75) errors.Add("Title must be at most 75 characters");
-
-            return errors;
+            if (string.IsNullOrEmpty(value)|| value.Length < 3 || value.Length > 75) return new Result<Title>(10, "Title length must be between 3 and 75 characters.");
+     
+            return null;
         }
     }
 }
