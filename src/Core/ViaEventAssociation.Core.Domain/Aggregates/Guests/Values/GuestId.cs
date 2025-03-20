@@ -5,7 +5,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests.Values;
 
 public record GuestId
 {
-    public Guid Value { get; private set; }
+    public Guid Value { get; init; }
 
     // 🔹 Constructor to allow instantiation
     public GuestId(Guid value)
@@ -17,7 +17,7 @@ public record GuestId
     {
         List<string> errors = Validate(value);
 
-        return errors.Count > 0 ? new Result<GuestId>(errors) : new Result<GuestId>(new GuestId(value));
+        return errors.Any() ? new Result<GuestId>(errors) : new Result<GuestId>(new GuestId(value));
     }
 
     private static List<string> Validate(Guid value)
