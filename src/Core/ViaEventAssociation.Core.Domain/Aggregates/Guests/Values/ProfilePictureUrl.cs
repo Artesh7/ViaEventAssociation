@@ -5,7 +5,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests.Values;
 
 public record ProfilePictureUrl
 {
-    public string Value { get; }
+    public string Value { get; private set; }
 
     private ProfilePictureUrl(string value)
     {

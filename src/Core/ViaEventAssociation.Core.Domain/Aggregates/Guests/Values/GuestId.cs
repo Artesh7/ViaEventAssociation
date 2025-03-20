@@ -5,9 +5,9 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests.Values;
 
 public record GuestId
 {
-    
     public Guid Value { get; init; }
-
+    
+    
     public static Result<GuestId> Create(Guid value)
     {
         List<string> errors = Validate();
@@ -17,10 +17,9 @@ public record GuestId
 
     private static List<string> Validate()
     {
-        List<string> errors = new List<string>();
+        List<string> errors = new();
         return errors;
     }
-
-
 }
+
 
