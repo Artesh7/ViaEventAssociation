@@ -6,10 +6,10 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
     public sealed record Address
     {
-        public int PostalCode { get; init; }
-        public string City { get; init; }
-        public string Street { get; init; }
-        public int HouseNumber { get; init; }
+        public int PostalCode { get; }
+        public string City { get; }
+        public string Street { get; }
+        public int HouseNumber { get; }
 
         private Address(int postalCode, string city, string street, int houseNumber)
         {
@@ -22,7 +22,9 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
         public static Result<Address> Create(int postalCode, string city, string street, int houseNumber)
         {
             List<string> errors = Validate(city);
-            return errors.Any() ? new Result<Address>(errors) : new Result<Address>(new Address(postalCode, city, street, houseNumber));
+            return errors.Any()
+                ? new Result<Address>(errors)
+                : new Result<Address>(new Address(postalCode, city, street, houseNumber));
         }
 
         private static List<string> Validate(string city)

@@ -22,7 +22,7 @@ namespace UnitTests.Features.LocationTests
             var result = Address.Create(postalCode, city, street, houseNumber);
 
             // Assert
-            Assert.Equal(0, result.resultCode);                  // expect success
+            Assert.Equal(0, result.resultCode); // expect success
             Assert.NotNull(result.payLoad);
             Assert.Equal("Main Street 42, 12345 TestCity", result.payLoad.ToString());
         }
@@ -32,7 +32,7 @@ namespace UnitTests.Features.LocationTests
         {
             // Arrange
             int postalCode = 12345;
-            string city = "";    
+            string city = "";
             string street = "Main Street";
             int houseNumber = 42;
 
@@ -40,8 +40,7 @@ namespace UnitTests.Features.LocationTests
             var result = Address.Create(postalCode, city, street, houseNumber);
 
             // Assert
-            Assert.NotEqual(0, result.resultCode);  
-            // check if it contains "City is required"
+            Assert.NotEqual(0, result.resultCode);
             Assert.Contains("City is required", result.errorMessage, StringComparison.OrdinalIgnoreCase);
         }
     }
@@ -84,64 +83,15 @@ namespace UnitTests.Features.LocationTests
     public class LocationIdTests
     {
         [Fact]
-        public void CreateLocationId_WithValidGuid_ReturnsSuccess()
+        public void CreateLocationId_ReturnsNonEmptyGuid()
         {
-            // Arrange
-            var guid = Guid.NewGuid();
-
             // Act
-            var result = LocationId.Create(guid);
-
-            // Assert
-            Assert.Equal(0, result.resultCode);
-            Assert.Equal(guid, result.payLoad.Value);
-        }
-
-        [Fact]
-        public void CreateLocationId_WithEmptyGuid_ReturnsError()
-        {
-            // Arrange
-            var guid = Guid.Empty;
-
-            // Act
-            var result = LocationId.Create(guid);
-
-            // Assert
-            Assert.NotEqual(0, result.resultCode);
-            Assert.Contains("Guid cannot be empty", result.errorMessage, StringComparison.OrdinalIgnoreCase);
-        }
-    }
-
-    // LocationMaxGuestCapacity-tests
-    public class LocationMaxGuestCapacityTests
-    {
-        [Fact]
-        public void CreateLocationMaxGuestCapacity_WithValidValue_ReturnsSuccess()
-        {
-            // Arrange
-            int capacity = 150;
-
-            // Act
-            var result = LocationMaxGuestCapacity.Create(capacity);
+            var result = LocationId.Create();
 
             // Assert
             Assert.Equal(0, result.resultCode);
             Assert.NotNull(result.payLoad);
-            Assert.Equal(capacity, result.payLoad.Value);
-        }
-
-        [Fact]
-        public void CreateLocationMaxGuestCapacity_WithNegativeValue_ReturnsError()
-        {
-            // Arrange
-            int capacity = -5;
-
-            // Act
-            var result = LocationMaxGuestCapacity.Create(capacity);
-
-            // Assert
-            Assert.NotEqual(0, result.resultCode);
-            Assert.Contains("cannot be negative", result.errorMessage, StringComparison.OrdinalIgnoreCase);
+            Assert.NotEqual(Guid.Empty, result.payLoad.Value);
         }
     }
 
@@ -213,7 +163,7 @@ namespace UnitTests.Features.LocationTests
     // Location-aggregate-tests
     public class LocationTests
     {
-        // help method to create a valid Location.
+        // Helper to create a valid Location
         private Result<Location> CreateValidLocation()
         {
             var nameResult = LocationName.Create("Valid Name");
@@ -260,7 +210,8 @@ namespace UnitTests.Features.LocationTests
                 nameResult.payLoad,
                 capacityResult.payLoad,
                 availabilityResult.payLoad,
-                addressResult.payLoad);
+                addressResult.payLoad
+            );
 
             // Assert
             Assert.Equal(0, result.resultCode);
@@ -275,7 +226,8 @@ namespace UnitTests.Features.LocationTests
         public void AddLocation_WithEmptyName_ReturnsError()
         {
             // Arrange
-            var nameResult = LocationName.Create(""); //invalid
+            var nameResult = LocationName.Create(""); // invalid
+
             // Assert
             Assert.NotEqual(0, nameResult.resultCode);
             Assert.Contains("cannot be empty", nameResult.errorMessage, StringComparison.OrdinalIgnoreCase);
@@ -286,6 +238,7 @@ namespace UnitTests.Features.LocationTests
         {
             // Arrange
             var capacityResult = MaxCapacity.Create(-1);
+
             // Assert
             Assert.NotEqual(0, capacityResult.resultCode);
             Assert.Contains("cannot be negative", capacityResult.errorMessage, StringComparison.OrdinalIgnoreCase);
@@ -301,7 +254,7 @@ namespace UnitTests.Features.LocationTests
             var capacityResult = MaxCapacity.Create(100);
             Assert.Equal(0, capacityResult.resultCode);
 
-            // fromTime == toTime => invslid
+            // fromTime == toTime => invalid
             var fixedTime = new DateTime(2025, 1, 1, 12, 0, 0, DateTimeKind.Utc);
             var availabilityResult = Availability.Create(fixedTime, fixedTime);
 
@@ -315,6 +268,7 @@ namespace UnitTests.Features.LocationTests
         {
             // Arrange
             var addressResult = Address.Create(12345, "", "Main Street", 42);
+
             // Assert
             Assert.NotEqual(0, addressResult.resultCode);
             Assert.Contains("City is required", addressResult.errorMessage, StringComparison.OrdinalIgnoreCase);
@@ -351,6 +305,7 @@ namespace UnitTests.Features.LocationTests
             Assert.NotEqual(0, newNameResult.resultCode);
             Assert.Contains("cannot be empty", newNameResult.errorMessage, StringComparison.OrdinalIgnoreCase);
 
+            // Location name should remain unchanged
             Assert.Equal("Valid Name", location.Name.Value);
         }
 
@@ -379,11 +334,11 @@ namespace UnitTests.Features.LocationTests
             var createResult = CreateValidLocation();
             var location = createResult.payLoad;
 
-            var newCapacityResult = MaxCapacity.Create(-10); //invalid
+            var newCapacityResult = MaxCapacity.Create(-10); // invalid
             Assert.NotEqual(0, newCapacityResult.resultCode);
             Assert.Contains("cannot be negative", newCapacityResult.errorMessage, StringComparison.OrdinalIgnoreCase);
-            
-            // Checks that the old capacity still applies
+
+            // Old capacity still applies
             Assert.Equal(100, location.MaxCapacity.Value);
         }
 
@@ -420,7 +375,7 @@ namespace UnitTests.Features.LocationTests
             Assert.NotEqual(0, newAvailabilityResult.resultCode);
             Assert.Contains("time range is invalid", newAvailabilityResult.errorMessage, StringComparison.OrdinalIgnoreCase);
 
-            // Checks that the old availability still applies
+            // Old availability still applies
             Assert.True(location.Availability.From < location.Availability.To);
         }
 
@@ -429,7 +384,8 @@ namespace UnitTests.Features.LocationTests
         {
             // Arrange
             var createResult = CreateValidLocation();
-            var location = createResult.resultCode == 0 ? createResult.payLoad : null;
+            Assert.Equal(0, createResult.resultCode);
+            var location = createResult.payLoad;
 
             var newAddressResult = Address.Create(99999, "NewCity", "SecondStreet", 101);
             Assert.Equal(0, newAddressResult.resultCode);
@@ -450,13 +406,14 @@ namespace UnitTests.Features.LocationTests
         {
             // Arrange
             var createResult = CreateValidLocation();
+            Assert.Equal(0, createResult.resultCode);
             var location = createResult.payLoad;
 
             var badAddressResult = Address.Create(99999, "", "SecondStreet", 101);
             Assert.NotEqual(0, badAddressResult.resultCode);
             Assert.Contains("City is required", badAddressResult.errorMessage, StringComparison.OrdinalIgnoreCase);
 
-            // Adresse keep the same
+            // Address remains unchanged
             Assert.Equal("TestCity", location.Address.City);
         }
     }

@@ -6,7 +6,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
     public sealed record MaxCapacity
     {
-        public int Value { get; init; }
+        public int Value { get; }
 
         private MaxCapacity(int value)
         {
@@ -16,7 +16,9 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
         public static Result<MaxCapacity> Create(int value)
         {
             List<string> errors = Validate(value);
-            return errors.Any() ? new Result<MaxCapacity>(errors) : new Result<MaxCapacity>(new MaxCapacity(value));
+            return errors.Any()
+                ? new Result<MaxCapacity>(errors)
+                : new Result<MaxCapacity>(new MaxCapacity(value));
         }
 
         private static List<string> Validate(int value)

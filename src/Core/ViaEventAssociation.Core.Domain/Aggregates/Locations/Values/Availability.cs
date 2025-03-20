@@ -7,8 +7,8 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
     public sealed record Availability
     {
-        public DateTime From { get; init; }
-        public DateTime To { get; init; }
+        public DateTime From { get; }
+        public DateTime To { get; }
 
         private Availability(DateTime from, DateTime to)
         {
@@ -19,7 +19,9 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
         public static Result<Availability> Create(DateTime from, DateTime to)
         {
             List<string> errors = Validate(from, to);
-            return errors.Any() ? new Result<Availability>(errors) : new Result<Availability>(new Availability(from, to));
+            return errors.Any()
+                ? new Result<Availability>(errors)
+                : new Result<Availability>(new Availability(from, to));
         }
 
         private static List<string> Validate(DateTime from, DateTime to)

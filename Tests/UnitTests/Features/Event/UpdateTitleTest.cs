@@ -35,7 +35,7 @@ namespace UnitTests.Features.Event
             vEvent.UpdateVisibility(Visibility.Create(Visibility.VisibilityEnum.Private).payLoad);
             vEvent.UpdateDescription(Description.Create("").payLoad);
             vEvent.UpdateDuration(EventDuration.Create(new DateTime(2022, 10, 31,9,0,0), new DateTime(2022, 10, 31,11,11,11)).payLoad);
-            vEvent.UpdateLocationId(LocationId.Create(Guid.NewGuid()).payLoad);
+            vEvent.UpdateLocationId(LocationId.Create().payLoad);
             Result<Status> resultStatus = vEvent.UpdateStatus(Status.Create(Status.StatusEnum.Ready).payLoad);
 
             Assert.Equal(0, resultStatus.resultCode);
