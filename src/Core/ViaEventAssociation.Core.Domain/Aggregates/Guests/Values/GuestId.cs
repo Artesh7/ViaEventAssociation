@@ -6,27 +6,18 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests.Values;
 public record GuestId
 {
     public Guid Value { get; init; }
-
-    // 🔹 Constructor to allow instantiation
-    public GuestId(Guid value)
-    {
-        Value = value;
-    }
-
+    
+    
     public static Result<GuestId> Create(Guid value)
     {
-        List<string> errors = Validate(value);
+        List<string> errors = Validate();
 
-        return errors.Any() ? new Result<GuestId>(errors) : new Result<GuestId>(new GuestId(value));
+        return errors.Any() ? new Result<GuestId>(errors) : new Result<GuestId>(new GuestId() { Value = value });
     }
 
-    private static List<string> Validate(Guid value)
+    private static List<string> Validate()
     {
         List<string> errors = new();
-
-        if (value == Guid.Empty)
-            errors.Add("Guest ID cannot be empty.");
-
         return errors;
     }
 }
