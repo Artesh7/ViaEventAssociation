@@ -1,21 +1,23 @@
-using System.Collections.Generic;
-using ViaEventAssociation.Core.Domain.Common.Bases;
+using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
+namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
-    public sealed class LocationName : ValueObject
+    public sealed record LocationName
     {
-        public string Value { get; }
+        public string Value { get; init; }
 
-        public LocationName(string value)
+        private LocationName(string value)
         {
-            // Simple constructor. Validate in the domain methods if you want to avoid exceptions.
-            Value = value ?? string.Empty;
+            Value = value;
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        public static Result<LocationName> Create(string value)
         {
-            yield return Value;
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return new Result<LocationName>(1, "Location name cannot be empty.");
+            }
+            return new Result<LocationName>(new LocationName(value));
         }
 
         public override string ToString() => Value;

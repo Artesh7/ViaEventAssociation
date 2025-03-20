@@ -1,22 +1,23 @@
-using System.Collections.Generic;
-using ViaEventAssociation.Core.Domain.Common.Bases;
+using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
+namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
-    public sealed class MaxCapacity : ValueObject
+    public sealed record MaxCapacity
     {
-        public int Value { get; }
+        public int Value { get; init; }
 
-        public MaxCapacity(int value)
+        private MaxCapacity(int value)
         {
-            // In real usage, you might store negative as well, 
-            // but we typically expect a domain check to disallow negative capacities.
             Value = value;
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        public static Result<MaxCapacity> Create(int value)
         {
-            yield return Value;
+            if (value < 0)
+            {
+                return new Result<MaxCapacity>(1, "Max capacity cannot be negative.");
+            }
+            return new Result<MaxCapacity>(new MaxCapacity(value));
         }
 
         public override string ToString() => Value.ToString();

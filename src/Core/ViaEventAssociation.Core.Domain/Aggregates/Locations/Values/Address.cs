@@ -1,29 +1,30 @@
-using System.Collections.Generic;
-using ViaEventAssociation.Core.Domain.Common.Bases;
+using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
+namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
-    public sealed class Address : ValueObject
+    public sealed record Address
     {
-        public int PostalCode { get; }
-        public string City { get; }
-        public string Street { get; }
-        public int HouseNumber { get; }
+        public int PostalCode { get; init; }
+        public string City { get; init; }
+        public string Street { get; init; }
+        public int HouseNumber { get; init; }
 
-        public Address(int postalCode, string city, string street, int houseNumber)
+        private Address(int postalCode, string city, string street, int houseNumber)
         {
             PostalCode = postalCode;
-            City = city ?? string.Empty;
-            Street = street ?? string.Empty;
+            City = city;
+            Street = street;
             HouseNumber = houseNumber;
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        public static Result<Address> Create(int postalCode, string city, string street, int houseNumber)
         {
-            yield return PostalCode;
-            yield return City;
-            yield return Street;
-            yield return HouseNumber;
+            if (string.IsNullOrWhiteSpace(city))
+            {
+                return new Result<Address>(1, "City is required.");
+            }
+            // Yderligere valideringer kan tilføjes efter behov.
+            return new Result<Address>(new Address(postalCode, city, street, houseNumber));
         }
 
         public override string ToString() =>

@@ -1,22 +1,24 @@
 using System;
-using System.Collections.Generic;
-using ViaEventAssociation.Core.Domain.Common.Bases;
+using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
+namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
-    public sealed class LocationId : ValueObject
+    public sealed record LocationId
     {
-        public Guid Value { get; }
+        public Guid Value { get; init; }
 
-        public LocationId(Guid value)
+        private LocationId(Guid value)
         {
-            // You could optionally validate that the Guid is not Guid.Empty
             Value = value;
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        public static Result<LocationId> Create(Guid value)
         {
-            yield return Value;
+            if (value == Guid.Empty)
+            {
+                return new Result<LocationId>(1, "Guid cannot be empty.");
+            }
+            return new Result<LocationId>(new LocationId(value));
         }
 
         public override string ToString() => Value.ToString();

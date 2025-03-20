@@ -1,21 +1,23 @@
-using System.Collections.Generic;
-using ViaEventAssociation.Core.Domain.Common.Bases;
+using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
+namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
-    public sealed class LocationMaxGuestCapacity : ValueObject
+    public sealed record LocationMaxGuestCapacity
     {
-        public int Value { get; }
+        public int Value { get; init; }
 
-        public LocationMaxGuestCapacity(int value)
+        private LocationMaxGuestCapacity(int value)
         {
-            // For demonstration we simply store the value directly.
             Value = value;
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        public static Result<LocationMaxGuestCapacity> Create(int value)
         {
-            yield return Value;
+            if (value < 0)
+            {
+                return new Result<LocationMaxGuestCapacity>(1, "Max guest capacity cannot be negative.");
+            }
+            return new Result<LocationMaxGuestCapacity>(new LocationMaxGuestCapacity(value));
         }
     }
 }

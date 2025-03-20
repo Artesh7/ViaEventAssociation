@@ -1,12 +1,12 @@
 using System;
+using ViaEventAssociation.Core.Domain.Aggregates.Locations.Values;
 using ViaEventAssociation.Core.Domain.Common.Bases;
 using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
+namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
 {
     public sealed class Location : AggregateRoot<LocationId>
     {
-        // Private fields for the Value Objects
         private LocationName _name;
         private MaxCapacity _maxCapacity;
         private Availability _availability;
@@ -36,48 +36,37 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
             // Validate name
             if (string.IsNullOrWhiteSpace(name.Value))
             {
-                return new Result<Location>(
-                    1, 
-                    "Location name cannot be empty."
-                );
+                return new Result<Location>(1, "Location name cannot be empty.");
             }
 
             // Validate capacity
             if (capacity.Value < 0)
             {
-                return new Result<Location>(
-                    2, 
-                    "Max capacity cannot be negative."
-                );
+                return new Result<Location>(2, "Max capacity cannot be negative.");
             }
 
             // Validate availability (optional rule: from < to)
             if (availability.From >= availability.To)
             {
-                return new Result<Location>(
-                    3, 
-                    "Availability time range is invalid (From >= To)."
-                );
+                return new Result<Location>(3, "Availability time range is invalid (From >= To).");
             }
 
             // Validate address (optional checks)
             if (string.IsNullOrWhiteSpace(address.City))
             {
-                return new Result<Location>(
-                    4, 
-                    "City is required."
-                );
+                return new Result<Location>(4, "City is required.");
             }
 
-            // If all validations pass:
-            var location = new Location(
-                new LocationId(Guid.NewGuid()), // Generate new ID internally
-                name,
-                capacity,
-                availability,
-                address
-            );
+            // Opret LocationId via factory-metoden
+            var idResult = LocationId.Create(Guid.NewGuid());
+            if (idResult.resultCode != 0)
+            {
+                // Her returneres fejlbeskeden(r) fra factory-metoden.
+                return new Result<Location>(idResult.errors);
+            }
 
+            // Brug payLoad i stedet for Value
+            var location = new Location(idResult.payLoad, name, capacity, availability, address);
             return new Result<Location>(location);
         }
         
@@ -116,7 +105,6 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
         
         public Result<Location> SetAddress(Address newAddress)
         {
-            // Optional address validations:
             if (string.IsNullOrWhiteSpace(newAddress.City))
             {
                 return new Result<Location>(4, "City is required.");

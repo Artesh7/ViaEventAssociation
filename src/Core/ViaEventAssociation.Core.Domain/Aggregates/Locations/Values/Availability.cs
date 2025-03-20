@@ -1,27 +1,26 @@
 using System;
-using System.Collections.Generic;
-using ViaEventAssociation.Core.Domain.Common.Bases;
+using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
+namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 {
-    public sealed class Availability : ValueObject
+    public sealed record Availability
     {
-        public DateTime From { get; }
-        public DateTime To { get; }
+        public DateTime From { get; init; }
+        public DateTime To { get; init; }
 
-        public Availability(DateTime from, DateTime to)
+        private Availability(DateTime from, DateTime to)
         {
-            // You might decide whether it’s invalid to have from >= to. 
-            // Typically, domain checks can be done in the domain methods.
-
             From = from;
             To = to;
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        public static Result<Availability> Create(DateTime from, DateTime to)
         {
-            yield return From;
-            yield return To;
+            if (from >= to)
+            {
+                return new Result<Availability>(1, "Availability time range is invalid (From >= To).");
+            }
+            return new Result<Availability>(new Availability(from, to));
         }
 
         public override string ToString() => $"From {From} to {To}";
