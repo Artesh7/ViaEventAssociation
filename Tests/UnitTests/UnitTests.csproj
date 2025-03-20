@@ -37,7 +37,6 @@
       <Folder Include="Features\GuestTests\DeclineInvitation\" />
       <Folder Include="Features\GuestTests\InviteGuest\" />
       <Folder Include="Features\GuestTests\Participate\" />
-      <Folder Include="Features\GuestTests\Register\" />
     </ItemGroup>
 
 </Project>
