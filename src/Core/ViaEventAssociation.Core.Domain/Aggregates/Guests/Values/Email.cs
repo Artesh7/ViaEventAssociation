@@ -6,7 +6,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests.Values;
 
 public record Email
 {
-    public string Value { get; }
+    public string Value { get; private set; }
 
     private Email(string value)
     {

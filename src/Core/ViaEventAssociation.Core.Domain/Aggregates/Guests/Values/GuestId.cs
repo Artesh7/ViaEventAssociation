@@ -5,7 +5,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guests.Values;
 
 public record GuestId
 {
-    public Guid Value { get; }
+    public Guid Value { get; private set; }
 
     // 🔹 Constructor to allow instantiation
     public GuestId(Guid value)
