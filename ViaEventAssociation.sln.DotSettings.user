@@ -2,5 +2,8 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=980f837c_002D5d16_002D4bed_002D84c1_002Df651593a2331/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from LocationTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::3A923B68-2982-49A4-85F3-25FD8C287D04::net8.0::UnitTests.Features.GuestTests.RegisterGuestTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::3A923B68-2982-49A4-85F3-25FD8C287D04::net8.0::UnitTests.Features.GuestTests.RegisterGuestInvalidProfilePictureTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::3A923B68-2982-49A4-85F3-25FD8C287D04::net8.0::UnitTests.Features.GuestTests.RegisterGuestInvalidNameTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::3A923B68-2982-49A4-85F3-25FD8C287D04::net8.0::UnitTests.Features.GuestTests.RegisterGuestValidTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
