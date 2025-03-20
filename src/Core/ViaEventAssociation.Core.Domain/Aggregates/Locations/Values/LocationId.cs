@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using ViaEventAssociation.Core.Tools.OperationResult;
 
 namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
@@ -14,11 +16,18 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 
         public static Result<LocationId> Create(Guid value)
         {
+            List<string> errors = Validate(value);
+            return errors.Any() ? new Result<LocationId>(errors) : new Result<LocationId>(new LocationId(value));
+        }
+
+        private static List<string> Validate(Guid value)
+        {
+            List<string> errors = new();
             if (value == Guid.Empty)
             {
-                return new Result<LocationId>(1, "Guid cannot be empty.");
+                errors.Add("Guid cannot be empty.");
             }
-            return new Result<LocationId>(new LocationId(value));
+            return errors;
         }
 
         public override string ToString() => Value.ToString();

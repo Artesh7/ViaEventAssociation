@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using ViaEventAssociation.Core.Domain.Aggregates.Locations.Values;
 using ViaEventAssociation.Core.Domain.Common.Bases;
 using ViaEventAssociation.Core.Tools.OperationResult;
@@ -33,41 +35,48 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
             Availability availability,
             Address address)
         {
-            // Validate name
-            if (string.IsNullOrWhiteSpace(name.Value))
+            // Use a separate validation method to collect any errors.
+            List<string> errors = Validate(name, capacity, availability, address);
+            if (errors.Any())
             {
-                return new Result<Location>(1, "Location name cannot be empty.");
+                return new Result<Location>(errors);
             }
 
-            // Validate capacity
-            if (capacity.Value < 0)
-            {
-                return new Result<Location>(2, "Max capacity cannot be negative.");
-            }
-
-            // Validate availability (optional rule: from < to)
-            if (availability.From >= availability.To)
-            {
-                return new Result<Location>(3, "Availability time range is invalid (From >= To).");
-            }
-
-            // Validate address (optional checks)
-            if (string.IsNullOrWhiteSpace(address.City))
-            {
-                return new Result<Location>(4, "City is required.");
-            }
-
-            // Opret LocationId via factory-metoden
+            // Create LocationId via its factory method.
             var idResult = LocationId.Create(Guid.NewGuid());
             if (idResult.resultCode != 0)
             {
-                // Her returneres fejlbeskeden(r) fra factory-metoden.
                 return new Result<Location>(idResult.errors);
             }
 
-            // Brug payLoad i stedet for Value
             var location = new Location(idResult.payLoad, name, capacity, availability, address);
             return new Result<Location>(location);
+        }
+
+        private static List<string> Validate(
+            LocationName name,
+            MaxCapacity capacity,
+            Availability availability,
+            Address address)
+        {
+            List<string> errors = new();
+            if (string.IsNullOrWhiteSpace(name.Value))
+            {
+                errors.Add("Location name cannot be empty.");
+            }
+            if (capacity.Value < 0)
+            {
+                errors.Add("Max capacity cannot be negative.");
+            }
+            if (availability.From >= availability.To)
+            {
+                errors.Add("Availability time range is invalid (From >= To).");
+            }
+            if (string.IsNullOrWhiteSpace(address.City))
+            {
+                errors.Add("City is required.");
+            }
+            return errors;
         }
         
         public Result<Location> UpdateName(LocationName newName)

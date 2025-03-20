@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using ViaEventAssociation.Core.Tools.OperationResult;
 
 namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
@@ -19,11 +21,18 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
 
         public static Result<Address> Create(int postalCode, string city, string street, int houseNumber)
         {
+            List<string> errors = Validate(city);
+            return errors.Any() ? new Result<Address>(errors) : new Result<Address>(new Address(postalCode, city, street, houseNumber));
+        }
+
+        private static List<string> Validate(string city)
+        {
+            List<string> errors = new();
             if (string.IsNullOrWhiteSpace(city))
             {
-                return new Result<Address>(1, "City is required.");
+                errors.Add("City is required.");
             }
-            return new Result<Address>(new Address(postalCode, city, street, houseNumber));
+            return errors;
         }
 
         public override string ToString() =>
