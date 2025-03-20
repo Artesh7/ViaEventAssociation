@@ -59,7 +59,7 @@ namespace UnitTests.Features.LocationTests
             Assert.NotNull(result.payLoad);
 
             var location = result.payLoad;
-            Assert.NotNull(location.Id); // Forudsætter at AggregateRoot eksponerer en Id-property
+            Assert.NotNull(location.Id); 
             Assert.Equal("Conference Room", location.Name.Value);
             Assert.Equal(50, location.MaxCapacity.Value);
             Assert.Equal(12345, location.Address.PostalCode);
@@ -68,7 +68,7 @@ namespace UnitTests.Features.LocationTests
         [Fact]
         public void AddLocation_WithEmptyName_ReturnsError()
         {
-            // Tester factory for LocationName med tomt navn
+        
             var nameResult = LocationName.Create("");
             Assert.NotEqual(0, nameResult.resultCode);
             Assert.Contains("cannot be empty", nameResult.errorMessage, StringComparison.OrdinalIgnoreCase);
@@ -77,7 +77,7 @@ namespace UnitTests.Features.LocationTests
         [Fact]
         public void AddLocation_WithNegativeCapacity_ReturnsError()
         {
-            // Tester factory for MaxCapacity med negativ værdi
+       
             var capacityResult = MaxCapacity.Create(-1);
             Assert.NotEqual(0, capacityResult.resultCode);
             Assert.Contains("cannot be negative", capacityResult.errorMessage, StringComparison.OrdinalIgnoreCase);
@@ -101,7 +101,7 @@ namespace UnitTests.Features.LocationTests
         [Fact]
         public void AddLocation_WithEmptyCity_ReturnsError()
         {
-            // Tester factory for Address med tomt by-navn
+        
             var addressResult = Address.Create(12345, "", "Main Street", 42);
             Assert.NotEqual(0, addressResult.resultCode);
             Assert.Contains("City is required", addressResult.errorMessage, StringComparison.OrdinalIgnoreCase);
@@ -130,14 +130,12 @@ namespace UnitTests.Features.LocationTests
             Assert.Equal(0, createResult.resultCode);
             var location = createResult.payLoad;
 
-            // Da den nye factory forhindrer oprettelse af et tomt navn,
-            // testes tomt navn direkte på factory-niveau.
+        
             var newNameResult = LocationName.Create("");
             Assert.NotEqual(0, newNameResult.resultCode);
             Assert.Contains("cannot be empty", newNameResult.errorMessage, StringComparison.OrdinalIgnoreCase);
 
-            // Derfor kaldes UpdateName ikke med en ugyldig værdi.
-            // Vi kan dog bekræfte, at locationens navn forbliver uændret.
+         
             Assert.Equal("Valid Name", location.Name.Value);
         }
 
@@ -168,7 +166,7 @@ namespace UnitTests.Features.LocationTests
             Assert.NotEqual(0, newCapacityResult.resultCode);
             Assert.Contains("cannot be negative", newCapacityResult.errorMessage, StringComparison.OrdinalIgnoreCase);
 
-            // Kapaciteten skal forblive uændret
+       
             Assert.Equal(100, location.MaxCapacity.Value);
         }
 
@@ -203,7 +201,7 @@ namespace UnitTests.Features.LocationTests
             Assert.NotEqual(0, newAvailabilityResult.resultCode);
             Assert.Contains("time range is invalid", newAvailabilityResult.errorMessage, StringComparison.OrdinalIgnoreCase);
 
-            // Tilgængeligheden skal forblive uændret
+           
             Assert.True(location.Availability.From < location.Availability.To);
         }
 
@@ -237,7 +235,7 @@ namespace UnitTests.Features.LocationTests
             Assert.NotEqual(0, badAddressResult.resultCode);
             Assert.Contains("City is required", badAddressResult.errorMessage, StringComparison.OrdinalIgnoreCase);
 
-            // Adressen skal forblive uændret
+            
             Assert.Equal("TestCity", location.Address.City);
         }
     }

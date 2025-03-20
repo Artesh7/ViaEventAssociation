@@ -23,7 +23,6 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations.Values
             {
                 return new Result<Address>(1, "City is required.");
             }
-            // Yderligere valideringer kan tilføjes efter behov.
             return new Result<Address>(new Address(postalCode, city, street, houseNumber));
         }
 
