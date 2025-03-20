@@ -17,7 +17,7 @@ namespace UnitTests.Features.Event
         [Fact]
         public void UpdateTitle_WithValidData()
         {
-            // Arrange
+            // Arrange S1
             EventId id = EventId.Create(Guid.NewGuid()).payLoad;
             Title title = Title.Create("Event Title").payLoad;
             Status status = Status.Create(Status.StatusEnum.Draft).payLoad;
@@ -26,7 +26,7 @@ namespace UnitTests.Features.Event
             // Act S1
             vEvent.UpdateTitle(Title.Create("Scary Movie Night!").payLoad);
 
-            // Assert
+            // Assert S1
             Assert.Equal("Scary Movie Night!", vEvent.Title.Value);
             Assert.Equal(Status.StatusEnum.Draft, vEvent.Status.Value);
 
@@ -34,7 +34,7 @@ namespace UnitTests.Features.Event
             vEvent.UpdateMaxNumberOfGuests(MaxNumberOfGuests.Create(5).payLoad);
             vEvent.UpdateVisibility(Visibility.Create(Visibility.VisibilityEnum.Private).payLoad);
             vEvent.UpdateDescription(Description.Create("").payLoad);
-            vEvent.UpdateDuration(EventDuration.Create(new DateTime(2022, 10, 31,9,0,0), new DateTime(2022, 10, 31,11,11,11)).payLoad);
+            vEvent.UpdateDuration(EventDuration.Create(new DateTime(2026, 10, 31,9,0,0), new DateTime(2026, 10, 31,11,11,11)).payLoad);
             vEvent.UpdateLocationId(new LocationId(Guid.NewGuid()));
             Result<Status> resultStatus = vEvent.UpdateStatus(Status.Create(Status.StatusEnum.Ready).payLoad);
 

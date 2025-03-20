@@ -10,8 +10,8 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events.Values
     public record MaxNumberOfGuests
     {
        public int Value { get; private set; }
-       
-       public MaxNumberOfGuests(int value){
+
+        private MaxNumberOfGuests(int value){
             Value = value;
         }
         public static Result<MaxNumberOfGuests> Create(int value)
