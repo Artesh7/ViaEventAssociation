@@ -13,7 +13,7 @@ public class RegisterGuestInvalidEmailTests
         var result = Guest.RegisterGuest(firstName, lastName, email, profilePictureUrl);
 
         // Assert
-        Assert.NotEqual(0, result.resultCode); // ❌ Expecting failure
+        Assert.NotEqual(0, result.resultCode); 
         Assert.Contains("Email", result.errors[0]); // Ensure email-related error message exists
     }
 }

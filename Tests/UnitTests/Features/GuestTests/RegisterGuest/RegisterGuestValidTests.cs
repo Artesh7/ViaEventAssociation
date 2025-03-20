@@ -17,7 +17,7 @@ public class RegisterGuestValidTests
         var result = Guest.RegisterGuest(firstName, lastName, email, profilePictureUrl);
 
         // Assert
-        Assert.Equal(0, result.resultCode); // ✅ Expecting success
+        Assert.Equal(0, result.resultCode); 
         Assert.NotNull(result.payLoad);
         Assert.Equal(email, result.payLoad.Email.Value);
         Assert.Equal(firstName, result.payLoad.Name.FirstName);

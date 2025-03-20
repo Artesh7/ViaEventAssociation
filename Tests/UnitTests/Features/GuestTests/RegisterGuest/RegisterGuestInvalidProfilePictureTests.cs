@@ -12,7 +12,7 @@ public class RegisterGuestInvalidProfilePictureTests
         var result = Guest.RegisterGuest(firstName, lastName, email, profilePictureUrl);
 
         // Assert
-        Assert.NotEqual(0, result.resultCode); // ❌ Expecting failure
+        Assert.NotEqual(0, result.resultCode); 
         Assert.Contains("profile picture", result.errors[0]); // Ensure URL-related error message exists
     }
 }
