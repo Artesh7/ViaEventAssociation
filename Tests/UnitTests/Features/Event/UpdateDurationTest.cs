@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ViaEventAssociation.Core.Domain.Aggregates.Events;
 using ViaEventAssociation.Core.Domain.Aggregates.Events.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Locations;
+using ViaEventAssociation.Core.Domain.Aggregates.Locations.Values;
 using ViaEventAssociation.Core.Tools.OperationResult;
 
 namespace UnitTests.Features.Event
@@ -41,7 +42,7 @@ namespace UnitTests.Features.Event
             vEvent.UpdateMaxNumberOfGuests(MaxNumberOfGuests.Create(5).payLoad);
             vEvent.UpdateVisibility(Visibility.Create(Visibility.VisibilityEnum.Private).payLoad);
             vEvent.UpdateDescription(Description.Create("").payLoad);
-            vEvent.UpdateLocationId(new LocationId(Guid.NewGuid()));
+            vEvent.UpdateLocationId(LocationId.Create().payLoad);
             Result<Status> resultStatus = vEvent.UpdateStatus(Status.Create(Status.StatusEnum.Ready).payLoad);
 
             Assert.Equal(0, resultStatus.resultCode);
