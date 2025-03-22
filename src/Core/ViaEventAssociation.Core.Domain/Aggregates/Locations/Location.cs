@@ -1,4 +1,5 @@
 using System;
+using ViaEventAssociation.Core.Domain.Aggregates.Locations.Values;
 using ViaEventAssociation.Core.Domain.Common.Bases;
 using ViaEventAssociation.Core.Tools.OperationResult;
 
@@ -6,7 +7,6 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
 {
     public sealed class Location : AggregateRoot<LocationId>
     {
-        // Private fields for the Value Objects
         private LocationName _name;
         private MaxCapacity _maxCapacity;
         private Availability _availability;
@@ -33,45 +33,12 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
             Availability availability,
             Address address)
         {
-            // Validate name
-            if (string.IsNullOrWhiteSpace(name.Value))
-            {
-                return new Result<Location>(
-                    1, 
-                    "Location name cannot be empty."
-                );
-            }
+            // Create the LocationId via its factory method (always valid).
+            var idResult = LocationId.Create();
+            // If you want to check it anyway, you can, but it never fails.
 
-            // Validate capacity
-            if (capacity.Value < 0)
-            {
-                return new Result<Location>(
-                    2, 
-                    "Max capacity cannot be negative."
-                );
-            }
-
-            // Validate availability (optional rule: from < to)
-            if (availability.From >= availability.To)
-            {
-                return new Result<Location>(
-                    3, 
-                    "Availability time range is invalid (From >= To)."
-                );
-            }
-
-            // Validate address (optional checks)
-            if (string.IsNullOrWhiteSpace(address.City))
-            {
-                return new Result<Location>(
-                    4, 
-                    "City is required."
-                );
-            }
-
-            // If all validations pass:
             var location = new Location(
-                new LocationId(Guid.NewGuid()), // Generate new ID internally
+                idResult.payLoad,
                 name,
                 capacity,
                 availability,
@@ -80,53 +47,33 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Locations
 
             return new Result<Location>(location);
         }
-        
+
+        // Since validation is handled by the value objects, we just set the fields.
         public Result<Location> UpdateName(LocationName newName)
         {
-            if (string.IsNullOrWhiteSpace(newName.Value))
-            {
-                return new Result<Location>(1, "New location name cannot be empty.");
-            }
-
             _name = newName;
             return new Result<Location>(this);
         }
-        
+
         public Result<Location> SetMaximumCapacity(MaxCapacity newCapacity)
         {
-            if (newCapacity.Value < 0)
-            {
-                return new Result<Location>(2, "Max capacity cannot be negative.");
-            }
-
             _maxCapacity = newCapacity;
             return new Result<Location>(this);
         }
-        
+
         public Result<Location> SetAvailability(Availability newAvailability)
         {
-            if (newAvailability.From >= newAvailability.To)
-            {
-                return new Result<Location>(3, "Availability time range is invalid (From >= To).");
-            }
-
             _availability = newAvailability;
             return new Result<Location>(this);
         }
-        
+
         public Result<Location> SetAddress(Address newAddress)
         {
-            // Optional address validations:
-            if (string.IsNullOrWhiteSpace(newAddress.City))
-            {
-                return new Result<Location>(4, "City is required.");
-            }
-
             _address = newAddress;
             return new Result<Location>(this);
         }
 
-        // Expose read-only properties to match UML attribute names
+        // Expose read-only properties to match UML
         public LocationName Name => _name;
         public MaxCapacity MaxCapacity => _maxCapacity;
         public Availability Availability => _availability;

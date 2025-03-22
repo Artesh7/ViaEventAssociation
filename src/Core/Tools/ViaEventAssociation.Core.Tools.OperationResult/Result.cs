@@ -1,40 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViaEventAssociation.Core.Tools.OperationResult
 {
     public class Result<T>
     {
-        public int resultCode { get; init; } // Success is 0, anything else is error.
-        public string errorMessage { get; private set; }
-        public T payLoad { get; init; }
-        public List<string> errors { get; init; }
+        // 0 = success, any nonzero = error
+        public int resultCode { get; } 
+        public string errorMessage { get; }
+        public T payLoad { get; }
+        public List<string> errors { get; }
 
-        // Constructor if an error occoured.
-        public Result(int resultCode, string errorMessage){
+        // Single-error constructor
+        public Result(int resultCode, string errorMessage)
+        {
             this.resultCode = resultCode;
             this.errorMessage = errorMessage;
+            this.errors = new List<string> { errorMessage };
         }
 
-        // Constructor if the call finished successfully.
-        public Result(T payload){
+        // Success constructor
+        public Result(T payload)
+        {
             this.resultCode = 0;
             this.payLoad = payload;
+            this.errors = new List<string>();
+            this.errorMessage = string.Empty;
         }
 
-        // Constructor if more than one error occoured.
+        // Multiple-errors constructor
         public Result(List<string> errors)
         {
             this.resultCode = 1;
             this.errors = errors;
+            this.errorMessage = string.Join("; ", errors);
         }
 
-        // More than one error occoured. The following error messages are appendid to the 1st one.
-        public void AddError(int resultCode, string errorMessage){
-            this.errorMessage += "," + resultCode + "-" + errorMessage;
-        }
+        // Helper property
+        public bool IsError => resultCode != 0;
     }
 }
