@@ -10,22 +10,22 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events.Values
     public record Description
     {
         public string Value { get; private set; }
-        public Description(string value)
+        private Description(string value)
         {
             Value = value;
         }
         public static Result<Description> Create(string value)
         {
-            List<string> errors = Validate(value);
+            Result<Description> errors = Validate(value);
 
-            return errors.Any() ? new Result<Description>(errors) : new Result<Description>(new Description(value));
+            return errors != null ? errors : new Result<Description>(new Description(value));
         }
-        private static List<string> Validate(string value)
+        private static Result<Description> Validate(string value)
         {
             List<string> errors = new();
-            if (value.Length > 251) errors.Add("Description must be at most 250 characters");
+            if (value.Length > 250) return new Result<Description>(20,"Description must be at most 250 characters");
 
-            return errors;
+            return null;
         }
     }
 }

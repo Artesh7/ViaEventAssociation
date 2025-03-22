@@ -16,8 +16,8 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events.Values
             Public
         }
         public VisibilityEnum Value { get; init; }
-        
-        public Visibility()
+
+        private Visibility()
         {
             Value = VisibilityEnum.Private;
         }

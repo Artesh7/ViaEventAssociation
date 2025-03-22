@@ -39,13 +39,23 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events
            Status = Status.Create(Status.StatusEnum.Draft).payLoad;
            return new Result<Title>(Title);
         }
-        public void UpdateDescription(Description description)
+        public Result<Description> UpdateDescription(Description description)
         {
+            if (Status.Value == Status.StatusEnum.Active) return new Result<Description>(21, "Description cannot be updated when status is active.");
+            if (Status.Value == Status.StatusEnum.Cancelled) return new Result<Description>(22, "Description cannot be updated when status is cancelled.");
+
             Description = description;
+            Status = Status.Create(Status.StatusEnum.Draft).payLoad;
+            return new Result<Description>(Description);
         }
-        public void UpdateDuration(EventDuration duration)
+        public Result<EventDuration> UpdateDuration(EventDuration duration)
         {
+            if (Status.Value == Status.StatusEnum.Active) return new Result<EventDuration>(36, "Duration cannot be updated when status is active.");
+            if (Status.Value == Status.StatusEnum.Cancelled) return new Result<EventDuration>(37, "Duration cannot be updated when status is cancelled.");
+            if(duration.From < DateTime.Now) return new Result<EventDuration>(38, "The 'From' date must be in the future");
             Duration = duration;
+            Status = Status.Create(Status.StatusEnum.Draft).payLoad;
+            return new Result<EventDuration>(Duration);
         }
         public Result<Status> UpdateStatus(Status status)
         {

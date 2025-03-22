@@ -11,7 +11,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events.Values
     {
         public string Value { get; private set; }
 
-        public Title(string value)
+        private Title(string value)
         {
             Value = value;
         }

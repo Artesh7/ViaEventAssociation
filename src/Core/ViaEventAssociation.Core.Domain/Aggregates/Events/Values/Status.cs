@@ -17,7 +17,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Events.Values
         }
         public StatusEnum Value { get; init; }
 
-        public Status()
+        private Status()
         {
             Value = StatusEnum.Draft;
         }
